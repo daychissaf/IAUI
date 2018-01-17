@@ -182,7 +182,8 @@ public class Mouse {
         mouseView.drawPath(roomsUiPath);
     }
 
-    public void withTargetRoom(Room targetRoom){
+    public Mouse withTargetRoom(Room targetRoom){
         this.targetRoom=targetRoom;
+        return this;
     }
 }

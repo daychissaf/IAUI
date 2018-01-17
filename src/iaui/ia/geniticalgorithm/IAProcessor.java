@@ -17,7 +17,7 @@ public class IAProcessor extends Thread {
     public void run() {
 
         //build population
-        Mouse oldGeneration[] = PopulationGenarator.generateMouses(labyrinth.getRoomsLength(), labyrinth.getInitialRoom());
+        Mouse oldGeneration[] = PopulationGenarator.generateMouses(labyrinth.getRoomsLength(), labyrinth.getInitialRoom(), labyrinth.getTargetRoom());
         Mouse newGenerationMouses[] = new Mouse[oldGeneration.length];
 
         int I=0;
@@ -25,7 +25,7 @@ public class IAProcessor extends Thread {
         do {
 
             //display
-            if(I%100==0){
+            if(I%1000==0){
                 labyrinth.refreshUi();
                 display(labyrinth, oldGeneration);
                 System.out.println("maxRatio :"+maxRatio);
@@ -51,7 +51,7 @@ public class IAProcessor extends Thread {
             tearDownGeneration(oldGeneration);
             oldGeneration = newGenerationMouses;
             newGenerationMouses = new Mouse[oldGeneration.length];
-            if(I%100==0){
+            if(I%1000==0){
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

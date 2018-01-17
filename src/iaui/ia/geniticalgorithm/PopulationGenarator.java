@@ -10,10 +10,10 @@ public class PopulationGenarator {
 
         private static int popolationLength = 6;
 
-        public static Mouse[] generateMouses(int roomsLength, Room room) {
+        public static Mouse[] generateMouses(int roomsLength, Room room, Room targetRoom) {
                 Mouse mouses[] = new Mouse[popolationLength];
                 for (int i = 0; i < popolationLength; i++) {
-                        mouses[i] = new Mouse(roomsLength).inRoom(room).generateRandomPath();
+                        mouses[i] = new Mouse(roomsLength).inRoom(room).withTargetRoom(targetRoom).generateRandomPath();
                 }
                 return mouses;
         }

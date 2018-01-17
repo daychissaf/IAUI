@@ -10,6 +10,7 @@ public class Labyrinth {
 
     List<Room> rooms;
     Room initialRoom;
+    Room targetRoom;
 
     public Labyrinth() {
         rooms = new ArrayList<Room>();
@@ -37,9 +38,10 @@ public class Labyrinth {
         return this.initialRoom;
     }
 
-    public void defineImportanceRatioFromRoom(Room roomA) {
+    public void defineImportanceRatioFromRoom(Room targetRoom) {
         int step = 0;
-        recursiveDefinitionForImportanceRatio(roomA, step);
+        this.targetRoom = targetRoom;
+        recursiveDefinitionForImportanceRatio(targetRoom, step);
     }
 
     private void recursiveDefinitionForImportanceRatio(Room roomA, int step) {
@@ -48,7 +50,7 @@ public class Labyrinth {
             if (direction != Direction.STOP) {
                 try {
                     Room roomTarget = roomA.getRoomByDirection(direction);
-                    if(roomTarget.getImportanceRatio() <roomA.getImportanceRatio() + 1){
+                    if (roomTarget.getImportanceRatio() < roomA.getImportanceRatio() + 1) {
                         recursiveDefinitionForImportanceRatio(roomTarget, step + 1);
                     }
                 } catch (AccessRoomException e) {
@@ -59,7 +61,7 @@ public class Labyrinth {
     }
 
     public void refreshUi() {
-        for (Room room: rooms) {
+        for (Room room : rooms) {
             room.refreshUi(initialRoom);
         }
     }
@@ -98,5 +100,9 @@ public class Labyrinth {
             }
         }
         System.out.println(")");
+    }
+
+    public Room getTargetRoom() {
+        return targetRoom;
     }
 }
