@@ -21,10 +21,9 @@ public class LabyrinthBuilder {
         Room roomO = new Room("O");
         Room roomP = new Room("P");
         Room roomR = new Room("R");
-        Room roomQ = new Room("Q");
 
         labyrinth.addRoom(roomA).addRoom(roomB).addRoom(roomC).addRoom(roomD).addRoom(roomE).addRoom(roomF).addRoom(roomG).addRoom(roomH).addRoom(roomI).addRoom(roomJ).addRoom(roomK).addRoom(roomL)
-                .addRoom(roomM).addRoom(roomN).addRoom(roomO).addRoom(roomP).addRoom(roomR).addRoom(roomQ);
+                .addRoom(roomM).addRoom(roomN).addRoom(roomO).addRoom(roomP).addRoom(roomR);
 
         labyrinth.roomAcces(roomA, roomD, Direction.DOWN);
         labyrinth.roomAcces(roomD, roomG, Direction.DOWN);
@@ -42,10 +41,8 @@ public class LabyrinthBuilder {
         labyrinth.roomAcces(roomM, roomN, Direction.DOWN);
         labyrinth.roomAcces(roomN, roomO, Direction.LEFT);
         labyrinth.roomAcces(roomO, roomP, Direction.LEFT);
-        labyrinth.roomAcces(roomP, roomR, Direction.LEFT);
-        labyrinth.roomAcces(roomR, roomH, Direction.UP);
 
-        labyrinth.defineInitialRoom(roomC);
+        labyrinth.defineInitialRoom(roomE);
         labyrinth.defineImportanceRatioFromRoom(roomA);
 
         return labyrinth;

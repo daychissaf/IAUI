@@ -51,15 +51,12 @@ public class Room {
         }
         Room visibleRoom = visibleRooms[direction.getOrder() - 1];
         if (visibleRoom == null) throw new AccessRoomException();
+
         return visibleRoom;
     }
 
     public int getImportanceRatio() {
         return importanceRatio;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void markAsDrawn() {
@@ -76,24 +73,28 @@ public class Room {
     }
 
     public void refreshUi(Room initialRoom) {
-        Room currentMouseRoom = initialRoom;
         for (Mouse mouse : mouses) {
-            Direction directions[] = mouse.getPath();
-            for (Direction direction : directions) {
-                if (direction != Direction.STOP) {
-                    try {
-                        currentMouseRoom = currentMouseRoom.getRoomByDirection(direction);
-                        currentMouseRoom.drawMouse(mouse);
-                    } catch (AccessRoomException e) {
-                        break;
-                    }
-                }
-            }
+            List<RoomUi> roomsUiPath = retrieveRoomUiPath(initialRoom, mouse);
+            mouse.drawPath(roomsUiPath);
         }
     }
 
-    private void drawMouse(Mouse mouse) {
-        this.view.draw(mouse.getColor());
+    private List<RoomUi> retrieveRoomUiPath(Room initialRoom, Mouse mouse) {
+        Room currentMouseRoom = initialRoom;
+        List<RoomUi> roomUiPath = new ArrayList<>();
+        roomUiPath.add(currentMouseRoom.view);
+        Direction directions[] = mouse.getPath();
+        for (Direction direction : directions) {
+            if (direction != Direction.STOP) {
+                try {
+                    currentMouseRoom = currentMouseRoom.getRoomByDirection(direction);
+                    roomUiPath.add(currentMouseRoom.view);
+                } catch (AccessRoomException e) {
+                    break;
+                }
+            }
+        }
+        return roomUiPath;
     }
 
     public void removeMouse(Mouse mouse) {

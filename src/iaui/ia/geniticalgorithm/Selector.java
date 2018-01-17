@@ -2,13 +2,14 @@ package iaui.ia.geniticalgorithm;
 
 import iaui.ia.model.Mouse;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Selector {
 
         private Mouse mouses[];
-        List<Interval> intervals = new LinkedList<Interval>();
+        List<Interval> intervals = new ArrayList<>();
 
         public Selector(Mouse mouses[]) {
                 this.mouses = mouses;

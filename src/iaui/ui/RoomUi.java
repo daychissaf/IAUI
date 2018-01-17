@@ -3,12 +3,9 @@ package iaui.ui;
 import iaui.ia.exception.AccessRoomException;
 import iaui.ia.model.Direction;
 import iaui.ia.model.Room;
-import iaui.ui.basic.ShapeCleaner;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import static iaui.ui.RoomUi.LINE_TYPE.FULL;
@@ -148,16 +145,14 @@ public class RoomUi implements ShapeUi {
     }
 
     public void draw(Color color) {
-        Circle circle = new Circle(x + (width / 2), y + (width / 2), 10);
-        circle.setFill(color);
-        Platform.runLater(
-                () -> {
-                    group.getChildren().add(circle);
-                }
-        );
-        Circle circleCleaner = new Circle(x + (width / 2), y + (width / 2), 10);
-        ShapeCleaner cleaner = new ShapeCleaner(group, circleCleaner);
-        cleaner.setDaemon(true);
-        cleaner.start();
+        //Nothing
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public Point getCentre() {
+        return new Point(x + (width / 2), y + (height / 2));
     }
 }

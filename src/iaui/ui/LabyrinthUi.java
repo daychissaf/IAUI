@@ -31,7 +31,7 @@ public class LabyrinthUi implements ShapeUi {
                     Room roomTarget = roomA.getRoomByDirection(direction);
                     if (!roomTarget.isDrawn()) {
                         Point point = calculateStartPointBasingOnDirection(x, y, direction);
-                        fillGroupRecursively(roomTarget, groupResult, point.x, point.y);
+                        fillGroupRecursively(roomTarget, groupResult, point.getX(), point.getY());
                     }
                 } catch (AccessRoomException e) {
 
@@ -54,15 +54,5 @@ public class LabyrinthUi implements ShapeUi {
                 throw new IllegalArgumentException();
         }
         return null;
-    }
-
-    private class Point {
-        int x;
-        int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
     }
 }

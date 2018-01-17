@@ -1,8 +1,11 @@
 package iaui.ia.model;
 
 import iaui.ia.exception.AccessRoomException;
+import iaui.ui.MouseUi;
+import iaui.ui.RoomUi;
 import javafx.scene.paint.Color;
 
+import java.util.List;
 import java.util.Random;
 
 import static iaui.ia.model.Direction.STOP;
@@ -12,14 +15,18 @@ public class Mouse {
     Direction path[];
     int stopIndex = 0;
     Room initialRoom;
+    Room targetRoom;
     Room currentRoom;
 
     Color color;
+
+    MouseUi mouseView;
 
     public Mouse(int pathMax) {
         path = new Direction[pathMax];
         color = getRandomColor();
         initPath();
+        mouseView=new MouseUi(this);
     }
 
     private Color getRandomColor() {
@@ -47,11 +54,16 @@ public class Mouse {
     private void move(Direction direction) {
         path[stopIndex] = direction;
         try {
-            updateCurrentRoomRelation(currentRoom.getRoomByDirection(path[stopIndex]));
+            Room roomByDirection = currentRoom.getRoomByDirection(path[stopIndex]);
+            updateCurrentRoomRelation(roomByDirection);
+            if(roomByDirection.equals(targetRoom)){
+                stopMoving(++stopIndex);
+            }else{
+                stopIndex++;
+            }
         } catch (AccessRoomException e) {
             stopMoving(stopIndex++);
         }
-        stopIndex++;
     }
 
     private void stopMoving(int currentIndex) {
@@ -109,6 +121,7 @@ public class Mouse {
         mouseCopy.updateCurrentRoomRelation(this.currentRoom);
         mouseCopy.initialRoom = this.initialRoom;
         mouseCopy.color = getRandomColor();
+        mouseCopy.targetRoom=this.targetRoom;
         return mouseCopy;
     }
 
@@ -163,5 +176,13 @@ public class Mouse {
         for (Direction direction : path) {
             System.out.println(direction.name);
         }
+    }
+
+    public void drawPath(List<RoomUi> roomsUiPath) {
+        mouseView.drawPath(roomsUiPath);
+    }
+
+    public void withTargetRoom(Room targetRoom){
+        this.targetRoom=targetRoom;
     }
 }

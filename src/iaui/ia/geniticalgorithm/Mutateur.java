@@ -4,8 +4,8 @@ import iaui.ia.model.Mouse;
 
 public class Mutateur {
 
-    private double LOWER_THRESHOLD = 0.01;
-    private double UPPER_THRESHOLD = 0.1;
+    private double LOWER_THRESHOLD = 0.001;
+    private double UPPER_THRESHOLD = 0.01;
 
 
     public void mutate(Mouse mouse) {

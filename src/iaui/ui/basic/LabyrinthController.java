@@ -1,10 +1,7 @@
 package iaui.ui.basic;
 
 import iaui.ia.geniticalgorithm.IAProcessor;
-import iaui.ia.model.Labyrinth;
-import iaui.ia.model.LabyrinthBuilder;
 import iaui.ui.LabyrinthUi;
-import iaui.ui.RoomUi;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
