@@ -21,11 +21,13 @@ public class IAProcessor extends Thread {
         Mouse newGenerationMouses[] = new Mouse[oldGeneration.length];
 
         int I=0;
+        int displayDelay = 5000;
         double maxRatio = rerieveMaxRatioFrom(labyrinth);
         do {
 
             //display
-            if(I%1000==0){
+
+            if(I% displayDelay ==0){
                 labyrinth.refreshUi();
                 display(labyrinth, oldGeneration);
                 System.out.println("maxRatio :"+maxRatio);
@@ -51,7 +53,7 @@ public class IAProcessor extends Thread {
             tearDownGeneration(oldGeneration);
             oldGeneration = newGenerationMouses;
             newGenerationMouses = new Mouse[oldGeneration.length];
-            if(I%1000==0){
+            if(I%displayDelay==0){
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

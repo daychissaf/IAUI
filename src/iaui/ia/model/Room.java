@@ -104,4 +104,8 @@ public class Room {
     public void print() {
         System.out.println(this.name + ":" + this.mouses.size() + " mouses");
     }
+
+    public String getName() {
+        return name;
+    }
 }

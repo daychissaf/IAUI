@@ -18,7 +18,7 @@ public class RoomUi implements ShapeUi {
     private int width;
     private int height;
 
-    private Paint rectangleColor = Color.RED;
+    private Paint rectangleColor = Color.BLACK;
 
     private Room room;
 

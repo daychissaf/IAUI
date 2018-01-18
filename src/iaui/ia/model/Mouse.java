@@ -26,7 +26,7 @@ public class Mouse {
         path = new Direction[pathMax];
         color = getRandomColor();
         initPath();
-        mouseView=new MouseUi(this);
+        mouseView = new MouseUi(this);
     }
 
     private Color getRandomColor() {
@@ -56,9 +56,9 @@ public class Mouse {
         try {
             Room roomByDirection = currentRoom.getRoomByDirection(path[stopIndex]);
             updateCurrentRoomRelation(roomByDirection);
-            if(roomByDirection.equals(targetRoom)){
+            if (roomByDirection.equals(targetRoom)) {
                 stopMoving(++stopIndex);
-            }else{
+            } else {
                 stopIndex++;
             }
         } catch (AccessRoomException e) {
@@ -95,10 +95,10 @@ public class Mouse {
     }
 
     private void updateCurrentRoomRelation(Room room) {
-        Room oldRoom=this.currentRoom;
+        Room oldRoom = this.currentRoom;
         this.currentRoom = room;
         this.currentRoom.addMouse(this);
-        if(oldRoom!=null){
+        if (oldRoom != null) {
             oldRoom.removeMouse(this);
         }
     }
@@ -121,32 +121,40 @@ public class Mouse {
         mouseCopy.updateCurrentRoomRelation(this.currentRoom);
         mouseCopy.initialRoom = this.initialRoom;
         mouseCopy.color = getRandomColor();
-        mouseCopy.targetRoom=this.targetRoom;
+        mouseCopy.targetRoom = this.targetRoom;
         return mouseCopy;
     }
 
     public void cross(Mouse mouse) {
-        int random1 = (int) Math.floor((Math.random() * 100)) % (path.length / 2);
-        int random2 = (int) Math.floor((Math.random() * 100)) % (path.length / 2) + (path.length / 2);
-        for (int i = random1; i <= random2; i++) {
-            if (path[i] == mouse.path[i] && path[i] != STOP) {
-                for (int j = i; j <= random2; j++) {
-                    Direction direction = this.path[j];
-                    this.path[j] = mouse.path[j];
-                    mouse.path[j] = direction;
+        int maxStopIndex = this.stopIndex > mouse.stopIndex ? this.stopIndex : mouse.stopIndex;
+        if(maxStopIndex>1){
+            int random1 = (int) Math.floor((Math.random() * 100)) % (maxStopIndex / 2);
+            int random2 = (int) Math.floor((Math.random() * 100)) % (maxStopIndex / 2) + (maxStopIndex / 2);
+            for (int i = random1; i <= random2; i++) {
+                //if (path[i] == mouse.path[i] && path[i] != STOP) {
+                //if (path[i] != STOP)
+                {
+                    for (int j = i; j <= random2; j++) {
+                        Direction direction = this.path[j];
+                        this.path[j] = mouse.path[j];
+                        mouse.path[j] = direction;
+                    }
+                    break;
                 }
-                break;
             }
-        }
 
-        this.refreshPathLogic();
-        mouse.refreshPathLogic();
+            this.refreshPathLogic();
+            mouse.refreshPathLogic();
+        }
     }
 
     public void mutate() {
         if (stopIndex > 0) {
             int random = (int) Math.floor((Math.random() * 100)) % stopIndex;
             path[random] = path[random].getRandomDirection();
+            this.refreshPathLogic();
+        }else{
+            path[0] = path[0].getRandomDirection();
             this.refreshPathLogic();
         }
 
@@ -182,8 +190,12 @@ public class Mouse {
         mouseView.drawPath(roomsUiPath);
     }
 
-    public Mouse withTargetRoom(Room targetRoom){
-        this.targetRoom=targetRoom;
+    public Mouse withTargetRoom(Room targetRoom) {
+        this.targetRoom = targetRoom;
         return this;
+    }
+
+    public boolean isBetterThan(Mouse mouse) {
+        return this.calculateFitnessRatio() >= mouse.calculateFitnessRatio();
     }
 }

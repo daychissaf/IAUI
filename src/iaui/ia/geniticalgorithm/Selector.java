@@ -19,7 +19,7 @@ public class Selector {
                 Mouse mousesResult[] = new Mouse[2];
                 double lastInterval = 0;
                 for (Mouse mouse : mouses) {
-                        double fitnessRatio = mouse.calculateFitnessRatio() * 100 / mouses.length;
+                        double fitnessRatio = mouse.calculateFitnessRatio() * 100;
                         intervals.add(new Interval(lastInterval, fitnessRatio + lastInterval, mouse));
                         lastInterval = fitnessRatio + lastInterval;
                 }
@@ -27,7 +27,16 @@ public class Selector {
                 mousesResult[0] = getMouseFromIntervals(random1);
                 int random2 = (int) Math.floor(Math.random() * lastInterval);
                 mousesResult[1] = getMouseFromIntervals(random2);
+
+                System.out.println("Last Interval: "+ lastInterval+ " --- "+random1+" -- "+random2);
+                displayIntervals();
                 return mousesResult;
+        }
+
+        private void displayIntervals() {
+                for (Interval interval:intervals) {
+                        interval.display();
+                }
         }
 
         private Mouse getMouseFromIntervals(int random1) {
@@ -56,6 +65,10 @@ public class Selector {
 
                 public Mouse getMouse() {
                         return mouse;
+                }
+
+                public void display() {
+                        System.out.println("["+initial+","+finale+"], "+mouse.calculateFitnessRatio());
                 }
         }
 }
