@@ -6,7 +6,7 @@ import iaui.ia.model.Labyrinth;
 import iaui.ia.model.Room;
 import javafx.scene.Group;
 
-public class LabyrinthUi implements ShapeUi {
+public class LabyrinthUi {
 
     private Labyrinth labyrinth;
     private int roomSize = 90;
@@ -15,23 +15,27 @@ public class LabyrinthUi implements ShapeUi {
         this.labyrinth = labyrinth;
     }
 
-    @Override
     public Group getShape() {
         Group groupResult = new Group();
-        Room roomA = labyrinth.getInitialRoom();
-        fillGroupRecursively(roomA, groupResult, 0, 0);
+        Room initialRoom = labyrinth.getInitialRoom();
+        Room targetRoom = labyrinth.getTargetRoom();
+        fillGroupRecursively(initialRoom, targetRoom, groupResult, 0, 0);
         return groupResult;
     }
 
-    private void fillGroupRecursively(Room roomA, Group groupResult, int x, int y) {
-        groupResult.getChildren().add(new RoomUi(x, y, roomSize, roomSize).withRoom(roomA).getShape());
+    private void fillGroupRecursively(Room roomA, Room labyrinthTargetRoom, Group groupResult, int x, int y) {
+        RoomUi roomUi = new RoomUi(x, y, roomSize, roomSize);
+        if (roomA.equals(labyrinthTargetRoom)) {
+            roomUi.markAsTarget();
+        }
+        groupResult.getChildren().add(roomUi.withRoom(roomA).getShape());
         for (Direction direction : Direction.values()) {
             if (direction != Direction.STOP) {
                 try {
-                    Room roomTarget = roomA.getRoomByDirection(direction);
-                    if (!roomTarget.isDrawn()) {
+                    Room currentTargetRoom = roomA.getRoomByDirection(direction);
+                    if (!currentTargetRoom.isDrawn()) {
                         Point point = calculateStartPointBasingOnDirection(x, y, direction);
-                        fillGroupRecursively(roomTarget, groupResult, point.getX(), point.getY());
+                        fillGroupRecursively(currentTargetRoom, labyrinthTargetRoom, groupResult, point.getX(), point.getY());
                     }
                 } catch (AccessRoomException e) {
 

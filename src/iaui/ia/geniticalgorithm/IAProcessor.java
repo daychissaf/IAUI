@@ -20,18 +20,14 @@ public class IAProcessor extends Thread {
         Mouse oldGeneration[] = PopulationGenarator.generateMouses(labyrinth.getRoomsLength(), labyrinth.getInitialRoom(), labyrinth.getTargetRoom());
         Mouse newGenerationMouses[] = new Mouse[oldGeneration.length];
 
-        int I=0;
-        int displayDelay = 5000;
+        int I = 0;
+        int displayDelay = 40;
         double maxRatio = rerieveMaxRatioFrom(labyrinth);
         do {
 
             //display
-
-            if(I% displayDelay ==0){
+            if (I % displayDelay == 0) {
                 labyrinth.refreshUi();
-                display(labyrinth, oldGeneration);
-                System.out.println("maxRatio :"+maxRatio);
-
             }
 
             int newGenerationIndex = 0;
@@ -53,7 +49,8 @@ public class IAProcessor extends Thread {
             tearDownGeneration(oldGeneration);
             oldGeneration = newGenerationMouses;
             newGenerationMouses = new Mouse[oldGeneration.length];
-            if(I%displayDelay==0){
+
+            if (I % displayDelay == 0) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -63,16 +60,23 @@ public class IAProcessor extends Thread {
             I++;
         } while (currentGenerationCanBeImproved(oldGeneration, maxRatio));
         System.out.println("Finished");
-        while(true){
+        while (true) {
             labyrinth.refreshUi();
-            display(labyrinth, oldGeneration);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private double getMousesRatio(Mouse[] newGenerationMouses) {
+        double ratio = 0;
+        for (Mouse mouse : newGenerationMouses) {
+            ratio += mouse.calculateFitnessRatio();
+        }
+        return ratio;
     }
 
     private void tearDownGeneration(Mouse[] mouses) {
@@ -96,10 +100,5 @@ public class IAProcessor extends Thread {
 
     public Labyrinth getLabyrinth() {
         return labyrinth;
-    }
-
-    private static void display(Labyrinth labyrinth, Mouse[] mouses) {
-        labyrinth.print();
-        labyrinth.printMousePath(mouses);
     }
 }

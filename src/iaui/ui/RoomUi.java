@@ -7,11 +7,12 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import static iaui.ui.RoomUi.LINE_TYPE.FULL;
 import static iaui.ui.RoomUi.LINE_TYPE.PARTIAL;
 
-public class RoomUi implements ShapeUi {
+public class RoomUi {
 
     private int x;
     private int y;
@@ -19,10 +20,17 @@ public class RoomUi implements ShapeUi {
     private int height;
 
     private Paint rectangleColor = Color.BLACK;
+    private Paint targetRoomColor = Color.GREENYELLOW;
 
     private Room room;
 
     Group group;
+
+    boolean isTarget;
+
+    public void markAsTarget() {
+        isTarget = true;
+    }
 
     enum LINE_TYPE {
         PARTIAL, FULL;
@@ -35,7 +43,6 @@ public class RoomUi implements ShapeUi {
         this.height = height;
     }
 
-    @Override
     public Group getShape() {
         Group groupResult = new Group();
 
@@ -77,8 +84,15 @@ public class RoomUi implements ShapeUi {
         groupResult.getChildren().add(upDoor);
         groupResult.getChildren().add(downDoor);
 
+        if (isTarget) {
+            Rectangle rectangle = new Rectangle(x, y, width, height);
+            rectangle.setFill(targetRoomColor);
+            groupResult.getChildren().add(rectangle);
+        }
+
         this.room.markAsDrawn();
         this.group = groupResult;
+
         return groupResult;
     }
 
@@ -138,14 +152,10 @@ public class RoomUi implements ShapeUi {
         return line1;
     }
 
-    public ShapeUi withRoom(Room room) {
+    public RoomUi withRoom(Room room) {
         this.room = room;
         this.room.withView(this);
         return this;
-    }
-
-    public void draw(Color color) {
-        //Nothing
     }
 
     public Group getGroup() {

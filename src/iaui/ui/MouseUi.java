@@ -4,44 +4,34 @@ import iaui.ia.model.Mouse;
 import javafx.animation.PathTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.shape.*;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 import java.util.List;
 
-public class MouseUi implements ShapeUi {
+public class MouseUi {
 
     Mouse mouse;
-
-    private static int position=0;
 
     public MouseUi(Mouse mouse) {
         this.mouse = mouse;
     }
 
-    @Override
-    public Group getShape() {
-        return null;
-    }
-
     public void drawPath(List<RoomUi> roomsUiPath) {
-
-        //TODO, genralize these contsants
-        int delta=0*position;
-        delta= (position<=3)?delta*(-1): delta;
-        position=(position+1)%6;
 
         if (roomsUiPath.size() != 0) {
             final Group group = roomsUiPath.get(0).getGroup();
             Point centre = roomsUiPath.get(0).getCentre();
-            final Circle circle = new Circle(centre.getX()+delta, centre.getY()+delta, 12);
-            circle.setFill(mouse.getColor());
+            MouseShape mouseShape=new MouseShape(centre.getX(), centre.getY(), 18, mouse.getColor());
+            Group mouseGroup=mouseShape.getShape();
 
-            final Path path = buildPathFromRoomsUi(roomsUiPath, delta);
+            final Path path = buildPathFromRoomsUi(roomsUiPath);
 
             Platform.runLater(
                     () -> {
-                        group.getChildren().add(circle);
+                        group.getChildren().add(mouseGroup);
                     }
             );
             final PathTransition pathTransition = new PathTransition();
@@ -49,25 +39,25 @@ public class MouseUi implements ShapeUi {
             pathTransition.setDuration(Duration.seconds(1));
             pathTransition.setDelay(Duration.seconds(0));
             pathTransition.setPath(path);
-            pathTransition.setNode(circle);
+            pathTransition.setNode(mouseGroup);
             pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
             pathTransition.setCycleCount(1);
             pathTransition.setAutoReverse(true);
             pathTransition.play();
 
             pathTransition.setOnFinished(e -> {
-                group.getChildren().remove(circle);
+                group.getChildren().remove(mouseGroup);
             });
         }
     }
 
-    private Path buildPathFromRoomsUi(List<RoomUi> roomsUiPath, int delta) {
+    private Path buildPathFromRoomsUi(List<RoomUi> roomsUiPath) {
         final Path path = new Path();
         Point centre = roomsUiPath.get(0).getCentre();
-        path.getElements().add(new MoveTo(centre.getX()+delta, centre.getY()+delta));
-        for (RoomUi roomUi:roomsUiPath) {
-            Point point=roomUi.getCentre();
-            path.getElements().add(new LineTo(point.getX()+delta, point.getY()+delta));
+        path.getElements().add(new MoveTo(centre.getX(), centre.getY()));
+        for (RoomUi roomUi : roomsUiPath) {
+            Point point = roomUi.getCentre();
+            path.getElements().add(new LineTo(point.getX(), point.getY()));
         }
         return path;
     }

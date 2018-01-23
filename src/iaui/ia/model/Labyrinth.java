@@ -66,42 +66,6 @@ public class Labyrinth {
         }
     }
 
-    public void print() {
-        for (Room room : rooms) {
-            room.print();
-        }
-        System.out.println("-------------------------------");
-    }
-
-    public void printMousePath(Mouse[] mouses) {
-        System.out.println("---------------------------------------");
-        for (Mouse mouse : mouses) {
-            printMousePath(mouse);
-            System.out.println("---------------------------------------");
-        }
-    }
-
-    public void printMousePath(Mouse mouse) {
-        mouse.print();
-        System.out.println("Fitness ratio: " + mouse.calculateFitnessRatio());
-        System.out.println("Position: " + mouse.getRoom());
-        Room currentRoom = initialRoom;
-        System.out.print("(" + initialRoom + "->");
-        Direction directions[] = mouse.getPath();
-        for (Direction direction : directions) {
-            if (direction != Direction.STOP) {
-                try {
-                    currentRoom = currentRoom.getRoomByDirection(direction);
-                    System.out.print(currentRoom + " ->");
-                } catch (AccessRoomException e) {
-                    System.out.println(")");
-                    break;
-                }
-            }
-        }
-        System.out.println(")");
-    }
-
     public Room getTargetRoom() {
         return targetRoom;
     }

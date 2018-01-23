@@ -131,16 +131,12 @@ public class Mouse {
             int random1 = (int) Math.floor((Math.random() * 100)) % (maxStopIndex / 2);
             int random2 = (int) Math.floor((Math.random() * 100)) % (maxStopIndex / 2) + (maxStopIndex / 2);
             for (int i = random1; i <= random2; i++) {
-                //if (path[i] == mouse.path[i] && path[i] != STOP) {
-                //if (path[i] != STOP)
-                {
                     for (int j = i; j <= random2; j++) {
                         Direction direction = this.path[j];
                         this.path[j] = mouse.path[j];
                         mouse.path[j] = direction;
                     }
                     break;
-                }
             }
 
             this.refreshPathLogic();
@@ -178,12 +174,6 @@ public class Mouse {
 
     public void kill() {
         this.currentRoom.removeMouse(this);
-    }
-
-    public void print() {
-        for (Direction direction : path) {
-            System.out.println(direction.name);
-        }
     }
 
     public void drawPath(List<RoomUi> roomsUiPath) {

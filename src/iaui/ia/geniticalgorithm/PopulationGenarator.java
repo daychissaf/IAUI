@@ -8,7 +8,7 @@ import iaui.ia.model.Room;
  */
 public class PopulationGenarator {
 
-        private static int popolationLength = 6;
+        private static int popolationLength = 100;
 
         public static Mouse[] generateMouses(int roomsLength, Room room, Room targetRoom) {
                 Mouse mouses[] = new Mouse[popolationLength];

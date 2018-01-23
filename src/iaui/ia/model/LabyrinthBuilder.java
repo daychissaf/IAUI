@@ -93,7 +93,7 @@ public class LabyrinthBuilder {
         labyrinth.roomAcces(roomP1, roomI1, Direction.UP);
         labyrinth.roomAcces(roomI1, roomH1, Direction.LEFT);
 
-        labyrinth.defineInitialRoom(roomI1);
+        labyrinth.defineInitialRoom(roomQ1);
         labyrinth.defineImportanceRatioFromRoom(roomA);
 
         return labyrinth;

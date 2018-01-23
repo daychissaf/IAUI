@@ -20,12 +20,10 @@ public class CrossOver {
                         crossedMouses[1]=mouses[1].getCopy();
                         applyCross(crossedMouses);
                         if(crossedMouses[0].isBetterThan(mouses[0]) || crossedMouses[1].isBetterThan(mouses[1])){
-                                System.out.println("Crossed and keep it");
                                 mouses[0].kill();
                                 mouses[1].kill();
                                 return  crossedMouses;
                         }else{
-                                System.out.println("Crossed by not find better");
                                 crossedMouses[0].kill();
                                 crossedMouses[1].kill();
                         }

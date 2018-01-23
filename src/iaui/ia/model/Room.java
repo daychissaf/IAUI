@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room {
+
     private String name;
     private Room visibleRooms[];
     private int importanceRatio;
@@ -99,13 +100,5 @@ public class Room {
 
     public void removeMouse(Mouse mouse) {
         this.mouses.remove(mouse);
-    }
-
-    public void print() {
-        System.out.println(this.name + ":" + this.mouses.size() + " mouses");
-    }
-
-    public String getName() {
-        return name;
     }
 }
